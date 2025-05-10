@@ -1,20 +1,45 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="ion-text-center">Plugins Capacitor</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📍 Ubicación</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" (click)="getLocation()">Obtener ubicación</ion-button>
+      <ion-text *ngIf="location">
+        <p>Lat: {{ location.latitude }}</p>
+        <p>Lng: {{ location.longitude }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📸 Cámara</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" (click)="takePicture()">Tomar foto</ion-button>
+      <img *ngIf="imageUrl" [src]="imageUrl" style="width: 100%; margin-top: 10px;" />
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>🌐 Estado de red</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-button expand="block" (click)="checkNetwork()">Ver estado de red</ion-button>
+      <ion-text *ngIf="networkStatus">
+        <p>Conectado: {{ networkStatus.connected ? 'Sí' : 'No' }}</p>
+        <p>Tipo: {{ networkStatus.connectionType }}</p>
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
