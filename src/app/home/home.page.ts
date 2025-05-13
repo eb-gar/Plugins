@@ -2,41 +2,49 @@ import { Component } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Network } from '@capacitor/network';
-import { IonicModule } from '@ionic/angular';
+import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonButton, IonContent } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-   styleUrls: ['home.page.scss'],
-  imports: [IonicModule, CommonModule],
+  styleUrls: ['home.page.scss'],
+  imports: [IonContent, 
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonCardSubtitle,
+    IonCardTitle,
+    IonButton,
+    CommonModule
+  ],
+  standalone: true
 })
-
 export class HomePage {
   location: any = null;
-  imageUrl: string | undefined;
+  imageUrl?: string;
   networkStatus: any;
 
   async getLocation() {
     try {
       const pos = await Geolocation.getCurrentPosition();
       this.location = pos.coords;
-    } catch (err) {
-      console.error('Error al obtener ubicación', err);
+    } catch (error) {
+      console.error('Error al obtener ubicación', error);
     }
   }
 
   async takePicture() {
     try {
-      const image = await Camera.getPhoto({
+      const photo = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera
       });
-      this.imageUrl = image.webPath;
-    } catch (err) {
-      console.error('Error al tomar la foto', err);
+      this.imageUrl = photo.webPath;
+    } catch (error) {
+      console.error('Error al tomar foto', error);
     }
   }
 
@@ -44,9 +52,8 @@ export class HomePage {
     try {
       const status = await Network.getStatus();
       this.networkStatus = status;
-      console.log('Estado de red:', status);
-    } catch (err) {
-      console.error('Error al obtener estado de red', err);
+    } catch (error) {
+      console.error('Error al verificar red', error);
     }
   }
 }
